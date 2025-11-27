@@ -8,10 +8,7 @@ internal class Elf : Creature
     public int Agility
     {
         get => _agility;
-        init
-        {
-            _agility = value < 0 ? 0 : (value > 10 ? 10 : value);
-        }
+        init => _agility = Validator.Limiter(value, 0, 10);
     }
 
     public override int Power => 8 * Level + 2 * Agility;

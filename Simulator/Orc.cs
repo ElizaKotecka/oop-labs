@@ -8,10 +8,7 @@ public class Orc : Creature
     public int Rage
     {
         get => _rage;
-        init
-        {
-            _rage = value < 0 ? 0 : (value > 10 ? 10 : value); //< 0 zamień na 0, > 10 zamień na 10
-        }
+        init => _rage = Validator.Limiter(value, 0, 10);
     }
 
     public override int Power => 7 * Level + 3 * Rage;

@@ -4,6 +4,7 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
 {
     private string _name;
     private int _level;
+
     public string Name
     {
         get => _name;
@@ -13,7 +14,7 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
     public int Level
     {
         get => _level;
-        init => _level = ValidateLevel(value);
+        init => _level = Validator.Limiter(value, 1, 10);
     }
 
     public Creature()
@@ -30,17 +31,7 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
 
     private string ValidateAndFormatName(string inputName)
     {
-        string processedName = (inputName ?? "").Trim(); // (inputName ?? "") obsługuje null
-
-        if (processedName.Length > 25)
-        {
-            processedName = processedName.Substring(0, 25).TrimEnd();
-        }
-
-        if (processedName.Length < 3)
-        {
-            processedName = processedName.PadRight(3, '#');
-        }
+        string processedName = Validator.Shortener(inputName, 3, 25, '#');
 
         if (processedName.Length > 0 && char.IsLower(processedName[0]))
         {
@@ -48,7 +39,6 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
         }
 
         return processedName;
-
     }
 
     private int ValidateLevel(int inputLevel)

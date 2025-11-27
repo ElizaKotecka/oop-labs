@@ -9,6 +9,7 @@ namespace Simulator
             Console.WriteLine("Starting Simulator!\n");
 
             TestElfsAndOrcs();
+            TestValidators();
 
             Console.WriteLine("\n");
             Console.ReadKey();
@@ -45,6 +46,41 @@ namespace Simulator
             {
                 Console.WriteLine($"{creature.Name,-15}: {creature.Power}");
             }
+        }
+        static void TestValidators()
+        {
+            Console.WriteLine("\n--- TEST VALIDATORS ---\n");
+
+            Creature c = new Orc() { Name = "    Shrek    ", Level = 20 };
+            c.SayHi();
+            c.Upgrade();
+            Console.WriteLine(c.Info);
+
+            c = new Elf("  ", -5);
+            c.SayHi();
+            c.Upgrade();
+            Console.WriteLine(c.Info);
+
+            c = new Orc("  donkey ") { Level = 7 };
+            c.SayHi();
+            c.Upgrade();
+            Console.WriteLine(c.Info);
+
+            c = new Elf("Puss in Boots – a clever and brave cat.");
+            c.SayHi();
+            c.Upgrade();
+            Console.WriteLine(c.Info);
+
+            c = new Orc("a                          troll name", 5);
+            c.SayHi();
+            c.Upgrade();
+            Console.WriteLine(c.Info);
+
+            var a = new Animals() { Description = "    Cats " };
+            Console.WriteLine(a.Info);
+
+            a = new Animals() { Description = "Mice           are great", Size = 40 };
+            Console.WriteLine(a.Info);
         }
     }
 }
