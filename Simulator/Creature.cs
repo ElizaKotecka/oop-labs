@@ -1,6 +1,6 @@
 ﻿namespace Simulator;
 
-public class Creature
+public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia obiektow potomnych: nie zadziała Creature.c = new Creature()
 {
     private string _name;
     private int _level;
@@ -88,9 +88,14 @@ public class Creature
         Go(directions);
     }
 
-    public void SayHi()
-    {
-        Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
-    }
+    //public virtual void SayHi() // virtual - dobiera metode na podstawie typu podstawionego pod zmienna (polimorfizm)
+    //{
+    //    Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
+    //}
+
+    public abstract void SayHi();
+
+    public abstract int Power { get; }
+
     public string Info => $"{Name}, [{Level}]";
 }
