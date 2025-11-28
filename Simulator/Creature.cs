@@ -87,5 +87,10 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
 
     public abstract int Power { get; }
 
-    public string Info => $"{Name}, [{Level}]";
+    public abstract string Info { get; }
+
+    public override string ToString()
+    {
+        return $"{GetType().Name.ToUpper()}: {Info}";
+    }
 }

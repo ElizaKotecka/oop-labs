@@ -37,8 +37,5 @@ internal class Elf : Creature
         Console.WriteLine($"Hi, I'm {Name}, my level is {Level}, agility is {Agility}.");
     }
 
-    public override string ToString() // ToString() zdefiniowany w object jako metoda virtual
-    {
-        return $"Hi, I'm {Name}, my level is {Level}, agility is {Agility}.";
-    }
+    public override string Info => $"{Name} [{Level}][{Agility}]";
 }

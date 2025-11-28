@@ -29,11 +29,13 @@ public class Orc : Creature
 
     public Orc(string name, int level = 1, int rage = 1) : base(name, level)
     {
-        Rage = rage; 
+        Rage = rage;
     }
 
     public override void SayHi()
     {
         Console.WriteLine($"Hi, I'm {Name}, my level is {Level}, rage is {Rage}.");
     }
+
+    public override string Info => $"{Name} [{Level}][{Rage}]";
 }
