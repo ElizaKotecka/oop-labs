@@ -36,27 +36,22 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
             _level += 1;
         }
     }
-    public void Go(Direction direction)
-    {
-        string lowerDirection = direction.ToString().ToLower();
+    string Go(Direction direction) => $"{direction.ToString().ToLower()}";
 
-        Console.WriteLine($"{Name} goes {lowerDirection}.");
-    }
-
-    public void Go(Direction[] directions)
+    public string[] Go(Direction[] directions)
     {
-        foreach (Direction direction in directions)
+        var results = new string[directions.Length];
+        for (int i = 0; i < directions.Length; i++)
         {
-            Go(direction);
+            results[i] = Go(directions[i]);
         }
+        return results;
     }
 
-    public void Go(string directionsString)
+    public string[] Go(string directionsString)
     {
-        Direction[] directions = DirectionParser.Parse(directionsString);
-
-        // druga metoda Go do ruchów
-        Go(directions);
+        var dirs = DirectionParser.Parse(directionsString);
+        return Go(dirs);
     }
 
     //public virtual void SayHi() // virtual - dobiera metode na podstawie typu podstawionego pod zmienna (polimorfizm)
@@ -64,7 +59,7 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
     //    Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
     //}
 
-    public abstract void SayHi();
+    public abstract string Greeting();
 
     public abstract int Power { get; }
 

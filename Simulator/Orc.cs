@@ -1,4 +1,6 @@
-﻿namespace Simulator;
+﻿using System;
+
+namespace Simulator;
 
 public class Orc : Creature
 {
@@ -17,10 +19,7 @@ public class Orc : Creature
     {
         _huntCount++;
         if (_huntCount % 2 == 0 && _rage < 10)
-        {
-            _rage++;
-        }
-        Console.WriteLine($"{Name} is hunting.");
+            _rage = Validator.Limiter(Rage + 1, 0, 10);
     }
 
     public Orc() : base()
@@ -32,9 +31,9 @@ public class Orc : Creature
         Rage = rage;
     }
 
-    public override void SayHi()
+    public override string Greeting()
     {
-        Console.WriteLine($"Hi, I'm {Name}, my level is {Level}, rage is {Rage}.");
+        return $"Hi, I'm {Name}, my level is {Level}, and my rage is {Rage}.";
     }
 
     public override string Info => $"{Name} [{Level}][{Rage}]";

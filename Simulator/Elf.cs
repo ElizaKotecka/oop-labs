@@ -1,6 +1,6 @@
 ﻿namespace Simulator;
 
-internal class Elf : Creature
+public class Elf : Creature
 {
     private int _agility = 1;
     private int _singCount = 0;
@@ -17,10 +17,7 @@ internal class Elf : Creature
     {
         _singCount++;
         if (_singCount % 3 == 0 && _agility < 10)
-        {
-            _agility++;
-        }
-        Console.WriteLine($"{Name} is singing.");
+            _agility = Validator.Limiter(Agility + 1, 0, 10);
     }
 
     public Elf() : base()
@@ -32,9 +29,9 @@ internal class Elf : Creature
         Agility = agility;
     }
 
-    public override void SayHi() // override - przyslon metode klasy bazowej (zeby to virtual w Creature dzialalo)
+    public override string Greeting() // override - przyslon metode klasy bazowej (zeby to virtual w Creature dzialalo)
     {
-        Console.WriteLine($"Hi, I'm {Name}, my level is {Level}, agility is {Agility}.");
+        return $"Hi, I'm {Name}, my level is {Level}, and my agility is {Agility}.";
     }
 
     public override string Info => $"{Name} [{Level}][{Agility}]";
