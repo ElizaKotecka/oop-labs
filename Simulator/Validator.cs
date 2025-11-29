@@ -23,6 +23,11 @@ public static class Validator
             processed = processed.PadRight(min, placeholder);
         }
 
+        if (processed.Length > 0 && char.IsLower(processed[0]))
+        {
+            processed = char.ToUpper(processed[0]) + processed.Substring(1);
+        }
+
         return processed;
     }
 }
