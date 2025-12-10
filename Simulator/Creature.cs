@@ -80,4 +80,5 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
     {
         return $"{GetType().Name.ToUpper()}: {Info}";
     }
+    public abstract char Symbol { get; }
 }
