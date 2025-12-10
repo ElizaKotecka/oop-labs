@@ -1,9 +1,14 @@
-﻿namespace Simulator;
+﻿using Simulator.Maps;
+
+namespace Simulator;
 
 public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia obiektow potomnych: nie zadziała Creature.c = new Creature()
 {
     private string _name;
     private int _level;
+
+    private Map? map;
+    private Point point;
 
     public string Name
     {
@@ -15,6 +20,22 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
     {
         get => _level;
         init => _level = Validator.Limiter(value, 1, 10);
+    }
+
+    public Point Position => point;
+
+    public void InitMapAndPosition(Map map, Point startingPosition)
+    {
+        if (map == null)
+            throw new ArgumentNullException(nameof(map));
+        if (!map.Exist(startingPosition))
+            throw new ArgumentOutOfRangeException(nameof(startingPosition));
+        if (this.map != null)
+            throw new InvalidOperationException("Stwór już znajduję się na mapie");
+
+        this.map = map;
+        point = startingPosition;
+        map.Add(this, startingPosition);
     }
 
     public Creature()
@@ -36,28 +57,18 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
             _level += 1;
         }
     }
-    string Go(Direction direction) => $"{direction.ToString().ToLower()}";
 
-    public string[] Go(Direction[] directions)
+    public void Go(Direction direction)
     {
-        var results = new string[directions.Length];
-        for (int i = 0; i < directions.Length; i++)
-        {
-            results[i] = Go(directions[i]);
-        }
-        return results;
-    }
+        if (map is null)
+            return;
 
-    public string[] Go(string directionsString)
-    {
-        var dirs = DirectionParser.Parse(directionsString);
-        return Go(dirs);
-    }
+        Point nextPoint = map.Next(point, direction);
 
-    //public virtual void SayHi() // virtual - dobiera metode na podstawie typu podstawionego pod zmienna (polimorfizm)
-    //{
-    //    Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
-    //}
+        map.Move(this, point, nextPoint);
+
+        point = nextPoint;
+    }
 
     public abstract string Greeting();
 

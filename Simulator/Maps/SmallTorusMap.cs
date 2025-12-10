@@ -2,21 +2,15 @@
 
 public class SmallTorusMap : Map
 {
-    public int Size { get; }
 
-    public SmallTorusMap(int size)
+    public SmallTorusMap(int sizeX, int sizeY) : base(sizeX, sizeY)
     {
-        if (size < 5 || size > 20)
-        {
-            throw new ArgumentOutOfRangeException(nameof(size), "Size must be between 5 and 20.");
-        }
-        Size = size;
-    }
+        if (sizeX > 20)
+            throw new ArgumentOutOfRangeException(nameof(sizeX), "Rozmiar mapy musi być mniejszy niż 20");
 
-    public override bool Exist(Point p)
-    {
-        // Punkt istnieje tylko jeśli mieści się w prostokącie (0,0) do (Size-1, Size-1)
-        return p.X >= 0 && p.X < Size && p.Y >= 0 && p.Y < Size;
+        if (sizeY > 20)
+            throw new ArgumentOutOfRangeException(nameof(sizeY), "Rozmiar mapy musi być mniejszy niż 20.");
+    
     }
 
     public override Point Next(Point p, Direction d)
@@ -36,8 +30,8 @@ public class SmallTorusMap : Map
     {
         // Wzór (x % n + n) % n obsługuje poprawnie liczby ujemne
         // Np. dla Size=20: (-1 + 20) % 20 = 19
-        int newX = (p.X + Size) % Size;
-        int newY = (p.Y + Size) % Size;
+        int newX = (p.X + SizeX) % SizeX;
+        int newY = (p.Y + SizeY) % SizeY;
 
         return new Point(newX, newY);
     }

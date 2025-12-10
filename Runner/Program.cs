@@ -8,57 +8,51 @@ internal class Program
     {
         Console.WriteLine("Starting Simulator!\n");
 
-        //Console.WriteLine("OUTPUT TEST\n");
-        //Creature c = new Elf("Elandor", 5, 3);
-        //Console.WriteLine(c);
-
-        //Creature o = new Orc("Gorbag", 10, 8);
-        //Console.WriteLine(o);
-
-        //TestElfsAndOrcs();
-        //TestValidators();
-        //TestObjectsToString();
-
-        //Console.WriteLine("\n");
-        //Console.ReadKey();
-
         Point p = new(10, 25);
         Console.WriteLine(p.Next(Direction.Right));          // (11, 25)
         Console.WriteLine(p.NextDiagonal(Direction.Right));  // (11, 24)
 
-    }
-    static void TestElfsAndOrcs()
-    {
-        Console.WriteLine("\nHUNT TEST\n");
-        var o = new Orc() { Name = "Gorbag", Rage = 7 };
-        o.Greeting();
-        for (int i = 0; i < 10; i++)
-        {
-            o.Hunt();
-            o.Greeting();
-        }
+        TestValidators();
+        TestObjectsToString();
 
-        Console.WriteLine("\nSING TEST\n");
-        var e = new Elf("Legolas", agility: 2);
-        e.Greeting();
-        for (int i = 0; i < 10; i++)
-        {
-            e.Sing();
-            e.Greeting();
-        }
+        Console.WriteLine("Program finished.");
+        Console.ReadLine();
 
-        Console.WriteLine("\nPOWER TEST\n");
-        Creature[] creatures = {
-        o,
-        e,
-        new Orc("Morgash", 3, 8),
-        new Elf("Elandor", 5, 3)
-        };
-        foreach (Creature creature in creatures)
-        {
-            Console.WriteLine($"{creature.Name,-15}: {creature.Power}");
-        }
     }
+
+    //static void TestElfsAndOrcs()
+    //{
+    //    Console.WriteLine("\nHUNT TEST\n");
+    //    var o = new Orc() { Name = "Gorbag", Rage = 7 };
+    //    o.Greeting();
+    //    for (int i = 0; i < 10; i++)
+    //    {
+    //        o.Hunt();
+    //        o.Greeting();
+    //    }
+
+    //    Console.WriteLine("\nSING TEST\n");
+    //    var e = new Elf("Legolas", agility: 2);
+    //    e.Greeting();
+    //    for (int i = 0; i < 10; i++)
+    //    {
+    //        e.Sing();
+    //        e.Greeting();
+    //    }
+
+    //    Console.WriteLine("\nPOWER TEST\n");
+    //    Creature[] creatures = {
+    //    o,
+    //    e,
+    //    new Orc("Morgash", 3, 8),
+    //    new Elf("Elandor", 5, 3)
+    //    };
+    //    foreach (Creature creature in creatures)
+    //    {
+    //        Console.WriteLine($"{creature.Name,-15}: {creature.Power}");
+    //    }
+    //}
+
     static void TestValidators()
     {
         Console.WriteLine("\nVALIDATORS TEST\n");

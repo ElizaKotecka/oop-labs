@@ -1,3 +1,5 @@
+using Simulator;
+
 namespace Simulator.Maps;
 
 /// <summary>
@@ -5,12 +7,34 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
+
+    public readonly int SizeX;
+    public readonly int SizeY;
+    private readonly Rectangle area;
+    private readonly Dictionary<Point, List<Creature>> creatures = new();
+
+    protected Map(int sizeX, int sizeY)
+    {
+        if (sizeX < 5)
+            throw new ArgumentOutOfRangeException(nameof(sizeX), "Rozmiar mapy musi byæ wiêkszy ni¿ 5.");
+        if (sizeY < 5)
+            throw new ArgumentOutOfRangeException(nameof(sizeY), "Rozmiar mapy musi byæ wiêkszy ni¿ 5.");
+
+        SizeX= sizeX;
+        SizeY = sizeY;
+        area = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
+    }
+
     /// <summary>
     /// Check if give point belongs to the map.
     /// </summary>
     /// <param name="p">Point to check.</param>
     /// <returns></returns>
-    public abstract bool Exist(Point p);
+    public virtual bool Exist(Point p)
+    {
+        return area.Contains(p);
+    }
+
 
     /// <summary>
     /// Next position to the point in a given direction.
@@ -28,4 +52,57 @@ public abstract class Map
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
     public abstract Point NextDiagonal(Point p, Direction d);
+
+    /// <summary>
+    /// Add creature to the map at point p.
+    /// </summary>
+    /// <param name="creature"> Creature to place on the map </param>
+    /// <param name="p">Point where creature apeares</param>
+    public void Add(Creature creature, Point p)
+    {
+        if (!creatures.TryGetValue(p, out var list))
+        {
+            list = new List<Creature>();
+            creatures[p] = list;
+        }
+        list.Add(creature);
+    }
+
+
+    /// <summary>
+    /// Removing creature from the map.
+    /// </summary>
+    /// <param name="creature">Vreature we are removing from the map (maybe it died :(((( )</param>
+    public void Remove(Creature creature, Point p)
+    {
+        if (creatures.TryGetValue(p, out var list))
+        {
+            list.Remove(creature);
+            if (list.Count == 0)
+                creatures.Remove(p);
+        }
+    }
+
+
+    public void Move(Creature creature, Point from, Point to)
+    {
+        Remove(creature, from);
+        Add(creature, to);
+    }
+
+
+    /// <summary>
+    /// Get list of creatures
+    /// </summary>
+    /// <param name="p"> point to check</param>
+    /// <returns></returns>
+    public IEnumerable<Creature> At(Point p)
+    {
+        if (creatures.TryGetValue(p, out var list))
+            return list;
+        return Array.Empty<Creature>();
+    }
+
+    public IEnumerable<Creature> At(int x, int y)
+    => At(new Point(x, y));
 }

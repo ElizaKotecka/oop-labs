@@ -2,15 +2,12 @@
 
 public static class DirectionParser
 {
-    public static Direction[] Parse(string directionsString)
+    public static List<Direction> Parse(string directionsString)
     {
         if (string.IsNullOrEmpty(directionsString))
-        {
-            return new Direction[0]; // Zwraca pustą tablicę dla pustego/null stringa
-        }
+            return new List<Direction>();
 
-        // Używamy listy, ponieważ wynikowa tablica może być krótsza niż wejściowy string
-        List<Direction> parsedDirections = new List<Direction>();
+        var parsedDirections = new List<Direction>();
 
         foreach (char c in directionsString)
         {
@@ -33,6 +30,6 @@ public static class DirectionParser
             }
         }
 
-        return parsedDirections.ToArray();
+        return parsedDirections;
     }
 }
