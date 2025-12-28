@@ -2,7 +2,7 @@
 
 namespace Simulator;
 
-public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia obiektow potomnych: nie zadziała Creature.c = new Creature()
+public abstract class Creature : IMappable
 {
     private string _name;
     private int _level;
@@ -23,6 +23,8 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
     }
 
     public Point Position => point;
+    public Map? Map => Map;
+    public virtual char MapSymbol => '?';
 
     public void InitMapAndPosition(Map map, Point startingPosition)
     {
@@ -80,5 +82,4 @@ public abstract class Creature // dzieki abstract klasa sluzy tylko do tworzenia
     {
         return $"{GetType().Name.ToUpper()}: {Info}";
     }
-    public abstract char Symbol { get; }
 }

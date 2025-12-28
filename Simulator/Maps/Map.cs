@@ -11,7 +11,7 @@ public abstract class Map
     public readonly int SizeX;
     public readonly int SizeY;
     private readonly Rectangle area;
-    private readonly Dictionary<Point, List<Creature>> creatures = new();
+    private readonly Dictionary<Point, List<IMappable>> creatures = new();
 
     protected Map(int sizeX, int sizeY)
     {
@@ -58,14 +58,14 @@ public abstract class Map
     /// </summary>
     /// <param name="creature"> Creature to place on the map </param>
     /// <param name="p">Point where creature apeares</param>
-    public void Add(Creature creature, Point p)
+    public void Add(IMappable m, Point p)
     {
         if (!creatures.TryGetValue(p, out var list))
         {
-            list = new List<Creature>();
+            list = new List<IMappable>();
             creatures[p] = list;
         }
-        list.Add(creature);
+        list.Add(m);
     }
 
 
@@ -73,21 +73,21 @@ public abstract class Map
     /// Removing creature from the map.
     /// </summary>
     /// <param name="creature">Vreature we are removing from the map (maybe it died :(((( )</param>
-    public void Remove(Creature creature, Point p)
+    public void Remove(IMappable m, Point p)
     {
         if (creatures.TryGetValue(p, out var list))
         {
-            list.Remove(creature);
+            list.Remove(m);
             if (list.Count == 0)
                 creatures.Remove(p);
         }
     }
 
 
-    public void Move(Creature creature, Point from, Point to)
+    public void Move(IMappable m, Point from, Point to)
     {
-        Remove(creature, from);
-        Add(creature, to);
+        Remove(m, from);
+        Add(m, to);
     }
 
 
@@ -96,13 +96,13 @@ public abstract class Map
     /// </summary>
     /// <param name="p"> point to check</param>
     /// <returns></returns>
-    public IEnumerable<Creature> At(Point p)
+    public IEnumerable<IMappable> At(Point p)
     {
         if (creatures.TryGetValue(p, out var list))
             return list;
-        return Array.Empty<Creature>();
+        return Array.Empty<IMappable>();
     }
 
-    public IEnumerable<Creature> At(int x, int y)
+    public IEnumerable<IMappable> At(int x, int y)
     => At(new Point(x, y));
 }

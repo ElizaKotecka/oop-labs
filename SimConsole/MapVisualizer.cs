@@ -54,7 +54,7 @@ public class MapVisualizer
         var creatures = _map.At(x, y).ToList(); // .ToList() wymaga 'using System.Linq;'
 
         if (creatures.Count == 0) return ' ';
-        if (creatures.Count == 1) return creatures[0].Symbol;
+        if (creatures.Count == 1) return creatures[0].MapSymbol;
         return 'X';
     }
 

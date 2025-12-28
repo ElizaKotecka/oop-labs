@@ -11,7 +11,8 @@ class Program
         Console.OutputEncoding = Encoding.UTF8;
 
         SmallSquareMap map = new(5);
-        List<Creature> creatures = [
+        //zmieniamy Creatures na IMappable
+        List<Creature> creatures = [   
             new Orc("Gorbag"),
             new Elf("Elandor")
         ];
@@ -24,8 +25,6 @@ class Program
         // Pętla symulacji
         while (!simulation.Finished)
         {
-            Console.Clear(); // Czyść ekran przed każdą klatką
-
             // Rysowanie mapy
             visualizer.Draw();
 
