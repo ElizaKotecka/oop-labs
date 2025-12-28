@@ -30,4 +30,15 @@ public static class Validator
 
         return processed;
     }
+    public static string ValidateDesc(string inputDesc)
+    {
+        string processedDesc = Validator.Shortener(inputDesc, 3, 15, '#');
+
+        if (processedDesc.Length > 0 && char.IsLower(processedDesc[0]))
+        {
+            processedDesc = char.ToUpper(processedDesc[0]) + processedDesc.Substring(1);
+        }
+
+        return processedDesc;
+    }
 }

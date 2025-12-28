@@ -14,9 +14,6 @@ public class MapVisualizer
 
     public void Draw()
     {
-        // Console.Clear() przenosimy najlepiej do Main(), 
-        // ale jeśli wolisz tu, to może zostać.
-
         int width = _map.SizeX;
         int height = _map.SizeY;
 

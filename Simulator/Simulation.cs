@@ -12,7 +12,7 @@ public class Simulation
     /// <summary>
     /// Creatures moving on the map.
     /// </summary>
-    public List<Creature> Creatures { get; }
+    public List<IMappable> Mappables { get; }
 
     /// <summary>
     /// Starting positions of creatures.
@@ -43,10 +43,12 @@ public class Simulation
     /// </summary>
     private int _currentTurnIndex = 0;
 
+    public int CurrentMoveNumber => _currentTurnIndex + 1;
+
     /// <summary>
     /// Creature which will be moving current turn.
     /// </summary>
-    public Creature CurrentCreature => Creatures[_currentTurnIndex % Creatures.Count];
+    public IMappable CurrentMappable => Mappables[_currentTurnIndex % Mappables.Count];
 
     /// <summary>
     /// Lowercase name of direction which will be used in current turn.
@@ -69,17 +71,17 @@ public class Simulation
     /// if number of creatures differs from
     /// number of starting positions.
     /// </summary>
-    public Simulation(Map map, List<Creature> creatures, List<Point> positions, string moves)
+    public Simulation(Map map, List<IMappable> mappables, List<Point> positions, string moves)
     {
         // 1. Walidacja danych wejściowych
-        if (creatures == null || creatures.Count == 0)
-            throw new ArgumentException("Lista stworów nie może być pusta.");
+        if (mappables == null || mappables.Count == 0)
+            throw new ArgumentException("Lista obiektów nie może być pusta.");
 
-        if (positions == null || positions.Count != creatures.Count)
-            throw new ArgumentException("Liczba pozycji startowych musi odpowiadać liczbie stworów.");
+        if (positions == null || positions.Count != mappables.Count)
+            throw new ArgumentException("Liczba pozycji startowych musi odpowiadać liczbie obiektów.");
 
         Map = map ?? throw new ArgumentNullException(nameof(map));
-        Creatures = creatures;
+        Mappables = mappables;
         Positions = positions;
         Moves = moves;
 
@@ -93,9 +95,9 @@ public class Simulation
         }
 
         // 3. Inicjalizacja stworów na mapie
-        for (int i = 0; i < Creatures.Count; i++)
+        for (int i = 0; i < Mappables.Count; i++)
         {
-            Creatures[i].InitMapAndPosition(Map, Positions[i]);
+            Mappables[i].InitMapAndPosition(Map, Positions[i]);
         }
     }
 
@@ -113,7 +115,7 @@ public class Simulation
 
         // Wykonujemy ruch stwora
         // CurrentCreature jest obliczany automatycznie przez getter: Creatures[index % Count]
-        CurrentCreature.Go(direction);
+        CurrentMappable.Go(direction);
 
         // Przesuwamy indeks tury
         _currentTurnIndex++;
