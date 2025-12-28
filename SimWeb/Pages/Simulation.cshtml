@@ -1,0 +1,87 @@
+﻿@page
+@model SimulationModel
+@{
+    ViewData["Title"] = "Symulacja";
+}
+
+<div class="text-center">
+    <div class="controls">
+        <form method="post">
+            <button type="submit" name="action" value="prev" class="btn">&larr;</button>
+        </form>
+
+        <h3>Tura @Model.TurnIndex</h3>
+
+        <form method="post">
+            <button type="submit" name="action" value="next" class="btn">&rarr;</button>
+        </form>
+    </div>
+
+    <div class="simulation-wrapper">
+
+        <div class="y-axis">
+            @for (int y = Model.SizeY - 1; y >= 0; y--)
+            {
+                <div class="y-axis-label">@y</div>
+            }
+        </div>
+
+        <div class="map-column">
+
+            <div class="map-container" style="grid-template-columns: repeat(@Model.SizeX, 80px);">
+                @for (int y = Model.SizeY - 1; y >= 0; y--)
+                {
+                    @for (int x = 0; x < Model.SizeX; x++)
+                    {
+                        var point = new Simulator.Point(x, y);
+                        string imageFile = ""; // domyslnie puste
+
+                        // sprawdzamy czy na tym polu cos stoi w tej turze
+                        if (Model.CurrentTurn.Symbols.ContainsKey(point))
+                        {
+                            char symbol = Model.CurrentTurn.Symbols[point];
+                            switch (symbol)
+                            {
+                                case 'O': imageFile = "ork-80.png"; break;
+                                case 'E': imageFile = "elf-80.png"; break;
+                                case 'A': imageFile = "rabbit-80.png"; break;
+                                case 'B': imageFile = "eagle-80.png"; break;
+                                case 'b': imageFile = "emu-80.png"; break;
+                                case 'X': imageFile = "combo-80.png"; break;
+                                default: break;
+                            }
+                        }
+
+                        <div class="map-cell">
+                            @if (!string.IsNullOrEmpty(imageFile))
+                            {
+                                <img src="~/images/@imageFile" alt="@imageFile" />
+                            }
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="x-axis">
+                @for (int x = 0; x < Model.SizeX; x++)
+                {
+                    <div class="x-axis-label">@x</div>
+                }
+            </div>
+
+        </div>
+    </div>
+
+    <div class="info-box">
+        @if (Model.TurnIndex == 0)
+        {
+            <span style="color: brown;">Pozycje startowe</span>
+        }
+        else
+        {
+            <span style="color: darkblue;">@Model.CurrentTurn.Mappable</span>
+            <span> &rArr; </span>
+            <span style="color: brown;">@Model.CurrentTurn.Move</span>
+        }
+    </div>
+</div>

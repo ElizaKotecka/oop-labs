@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SimWeb</title>
+    @* Upewnij się, że ten plik istnieje w wwwroot/css/site.css *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <b class="brand">SimWeb</b>
+            <nav>
+                @* Zmieniamy /Privacy na /Index *@
+                <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Index" ? "active" : "")"
+                   asp-area="" asp-page="/Index">Informacje</a>
+
+                @* Zmieniamy /Index na /Simulation *@
+                <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Simulation" ? "active" : "")"
+                   asp-area="" asp-page="/Simulation">Symulacja</a>
+            </nav>
+        </div>
+    </header>
+    <main role="main">
+        @RenderBody()
+    </main>
+    <script src="~/js/site.js"></script>
+</body>
+</html>
